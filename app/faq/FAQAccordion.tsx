@@ -19,19 +19,19 @@ const FAQ_DATA: FAQItem[] = [
     category: 'Getting Started',
     question: 'Is WatchFury free to use?',
     answer:
-      'Yes! WatchFury is completely free. No subscription, no credit card required. Simply visit the site and start watching your favourite K-dramas instantly.',
+      'Yes! WatchFury is completely free. No subscription, no credit card required. Simply visit the site and start watching your favorite movies, TV shows, and dramas instantly.',
   },
   {
     category: 'Getting Started',
     question: 'Do I need to create an account?',
     answer:
-      'No account is required to browse and watch dramas. However, creating an account (coming soon) will let you save your watch history, create watchlists, and pick up where you left off.',
+      'No account is required to browse and watch content. However, creating an account (coming soon) will let you save your watch history, create watchlists, and pick up where you left off.',
   },
   {
     category: 'Getting Started',
     question: 'What devices can I watch on?',
     answer:
-      'WatchFury works on any device with a modern web browser — desktop, laptop, tablet, or smartphone. No app download needed.',
+      'WatchFury works on any device with a modern web browser—desktop, laptop, tablet, or smartphone. No app download needed.',
   },
 
   // ── Watching ─────────────────────────────────────────────────────────────
@@ -39,7 +39,7 @@ const FAQ_DATA: FAQItem[] = [
     category: 'Watching',
     question: 'Why is the video not playing or showing a black screen?',
     answer:
-      'This usually happens when the current streaming server is overloaded or temporarily down. Click a different server button (e.g. Server 2, Server 3) directly above the player — we have 10 servers available. One of them will work!',
+      'This usually happens when the current streaming server is overloaded or temporarily down. Click a different server button (e.g., Server 2, Server 3) directly above the player—we have 10 servers available. One of them will work!',
   },
   {
     category: 'Watching',
@@ -63,21 +63,21 @@ const FAQ_DATA: FAQItem[] = [
   // ── Content ──────────────────────────────────────────────────────────────
   {
     category: 'Content',
-    question: "Why isn't my favourite drama available?",
+    question: "Why isn't my favorite movie or show available?",
     answer:
-      "Our library depends on third-party streaming providers. If a drama isn't showing up, you can submit a request on our Request Drama page and we'll do our best to add it.",
+      "Our library depends on third-party streaming providers. If a title isn't showing up, you can submit a request on our Request Page and we'll do our best to add it.",
   },
   {
     category: 'Content',
     question: 'How often is new content added?',
     answer:
-      'New episodes and dramas are added regularly as they air. Ongoing dramas are typically updated within 24–48 hours of an episode airing in Korea.',
+      'New movies and TV episodes are added regularly as they are released. Ongoing series are typically updated within 24–48 hours of their official air date.',
   },
   {
     category: 'Content',
-    question: 'Do you have Chinese dramas, anime, and Hollywood shows?',
+    question: 'Do you have Hollywood shows, Anime, and Asian dramas?',
     answer:
-      'Yes! Use the Explore page and filter by C-Drama, Anime, or Hollywood to browse those categories.',
+      'Yes! Use the Explore page and filter by category (Hollywood, Anime, K-Drama, C-Drama) to browse our full selection.',
   },
 
   // ── Technical ────────────────────────────────────────────────────────────
@@ -91,7 +91,7 @@ const FAQ_DATA: FAQItem[] = [
     category: 'Technical',
     question: 'I found a bug or broken link. How do I report it?',
     answer:
-      "You can use our Request Drama page to send us a message. Select 'Report a Bug' as the type.",
+      "You can use our Request Page to send us a message. Select 'Report a Bug' as the type, and we'll look into it immediately.",
   },
 ];
 
