@@ -32,7 +32,7 @@ export default function Footer() {
 
           {/* Copyright */}
           <p className="text-xs text-gray-600">
-            © {year} WatchFury. 
+            © {year}  Developed by Toothless
           </p>
 
         </div>
