@@ -16,7 +16,7 @@ import HeroBanner from '@/components/HeroBanner';
 import DramaRow from '@/components/DramaRow';
 
 export const metadata: Metadata = {
-  title: 'MovFury — Watch Movies & Series Free',
+  title: 'WatchFury — Watch Movies & Series Free',
   description:
     'Watch the latest movies from all countries and US series for free. No subscription required. Stream online in HD.',
 };
