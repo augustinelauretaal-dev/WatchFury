@@ -37,6 +37,7 @@ const BADGE_CLASSES: Record<string, string> = {
   pink: "bg-primary/20 text-primary border-primary/30",
   yellow: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
   red: "bg-red-500/20 text-red-400 border-red-500/30",
+  coral: "bg-[#ff2d55]/20 text-[#ff2d55] border-[#ff2d55]/30",
 };
 
 // ─── Provider Status Colors ───────────────────────────────────────────────────

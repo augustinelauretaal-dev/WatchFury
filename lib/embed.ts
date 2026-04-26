@@ -66,15 +66,15 @@ const PROVIDERS: ProviderConfig[] = [
   // ── Tier 1: Primary Providers (Fast & Reliable) ─────────────────────────────
   {
     id: 'vidsrc-icu',
-    name: 'Server 1',
+    name: 'Server 2',
     badge: 'HD',
     badgeColor: 'blue',
     hasSubs: true,
-    priority: 1,
+    priority: 2,
     tv: (id, s, ep) => `https://vidsrc.icu/embed/tv/${id}/${s}/${ep}?sub_lang=en`,
     movie: (id) => `https://vidsrc.icu/embed/movie/${id}?sub_lang=en`,
   },
-  {
+  /**{
     id: 'vidsrc-me',
     name: 'Server 2',
     badge: 'HD',
@@ -93,9 +93,19 @@ const PROVIDERS: ProviderConfig[] = [
     priority: 4,
     tv: (id, s, ep) => `https://vidsrc-embed.ru/embed/tv/${id}/${s}/${ep}?sub_lang=en`,
     movie: (id) => `https://vidsrc-embed.ru/embed/movie/${id}?sub_lang=en`,
-  },
-];
+  },*/
 
+  {
+    id: 'vidking-net',
+    name: 'Server 1',
+    badge: 'HD',
+    badgeColor: 'blue',
+    hasSubs: true,
+    priority: 1,
+    tv: (id, s, ep) => `https://www.vidking.net/embed/tv/${id}/${s}/${ep}?lang=en`,
+    movie: (id) => `https://www.vidking.net/embed/movie/${id}?lang=en`,
+  },
+]; 
 // ─── Public API ───────────────────────────────────────────────────────────────
 
 /**

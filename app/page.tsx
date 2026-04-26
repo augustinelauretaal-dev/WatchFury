@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
 import {
   getTrendingMovies,
   getLatestMovies,
@@ -14,6 +13,7 @@ import {
 } from '@/lib/tmdb';
 import HeroBanner from '@/components/HeroBanner';
 import DramaRow from '@/components/DramaRow';
+import ContinueWatching from '@/components/ContinueWatching';
 
 export const metadata: Metadata = {
   title: 'WatchFury — Watch Movies & Series Free',
@@ -43,16 +43,7 @@ export default async function HomePage() {
 
       {/* Main Content */}
       <div className="max-w-[1400px] mx-auto px-4 py-6 space-y-2">
-        {/* Continue Watching Section */}
-        <section className="mb-6">
-          <h2 className="text-xl font-bold text-white">Continue Watching</h2>
-          <p className="text-sm text-gray-500 mt-1 text-center py-4">
-            <Link href="/signin" className="text-primary hover:underline">
-              Sign in
-            </Link>{' '}
-            now to save your watch history.
-          </p>
-        </section>
+        <ContinueWatching />
 
         {/* Movie Rows */}
         <DramaRow
@@ -103,7 +94,6 @@ export default async function HomePage() {
           dramas={topKdramaSeries}
           viewMoreHref="/explore?type=tv&country=KR"
         />
-
 
         <DramaRow
           title="Upcoming Series"

@@ -10,7 +10,9 @@ interface DramaCardProps {
 
 export default function DramaCard({ drama, showBadge = true }: DramaCardProps) {
   const posterUrl = drama.poster_path
-    ? `https://image.tmdb.org/t/p/w342${drama.poster_path}`
+    ? drama.poster_path.startsWith('http')
+      ? drama.poster_path
+      : `https://image.tmdb.org/t/p/w342${drama.poster_path}`
     : null;
 
   const title = drama.name || drama.title || 'Untitled';

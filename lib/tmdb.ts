@@ -298,7 +298,10 @@ export type SortOption =
   | "first_air_date.desc"
   | "first_air_date.asc"
   | "vote_average.desc"
-  | "vote_average.asc";
+  | "vote_average.asc"
+  | "top"
+  | "airing"
+  | "upcoming";
 
 export interface DiscoverOptions {
   country?: string;

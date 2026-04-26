@@ -3,6 +3,7 @@ import Link from "next/link";
 import clsx from "clsx";
 import { discoverDramas, SortOption, getTVGenres, getMovieGenres, TMDBGenre } from "@/lib/tmdb";
 import DramaCard from "@/components/DramaCard";
+import ExploreFilters from "@/components/ExploreFilters";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -33,6 +34,9 @@ const SORT_OPTIONS: { label: string; value: SortOption; param: string }[] = [
   { label: "Popular", value: "popularity.desc", param: "popular" },
   { label: "Latest", value: "first_air_date.desc", param: "latest" },
   { label: "Top Rated", value: "vote_average.desc", param: "top_rated" },
+  { label: "Top", value: "top", param: "top" },
+  { label: "Airing", value: "airing", param: "airing" },
+  { label: "Upcoming", value: "upcoming", param: "upcoming" },
 ];
 
 function sortParamToValue(sort?: string): SortOption {
@@ -41,6 +45,12 @@ function sortParamToValue(sort?: string): SortOption {
       return "first_air_date.desc";
     case "top_rated":
       return "vote_average.desc";
+    case "top":
+      return "top";
+    case "airing":
+      return "airing";
+    case "upcoming":
+      return "upcoming";
     default:
       return "popularity.desc";
   }
@@ -109,8 +119,8 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
   /* Fetch genres based on type */
   const genres = await (currentType === "movie" ? getMovieGenres() : getTVGenres()).catch(() => []);
 
-  /* Fetch results based on type (tv or movie) */
-  const { results, total_pages, total_results } = await discoverDramas({
+  /* Fetch results from TMDB */
+  const tmdbData = await discoverDramas({
     country: currentCountry || undefined,
     genre: effectiveGenre || undefined,
     sortBy,
@@ -118,6 +128,10 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
     minVotes,
     type: currentType === "movie" ? "movie" : "tv",
   }).catch(() => ({ results: [], total_pages: 1, total_results: 0 }));
+
+  const results = tmdbData.results;
+  const total_pages = tmdbData.total_pages;
+  const total_results = tmdbData.total_results;
 
   /* Active country filter */
   const activeCountry =
@@ -130,7 +144,7 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
     buildFilterHref("/explore", {
       country: currentCountry || undefined,
       genre: currentGenre || undefined,
-      type: currentType === "movie" ? "movie" : "tv",
+      type: currentType === "movie" ? "movie" : currentType === "anime" ? "anime" : "tv",
       sort: sortParam,
       page: undefined,
     });
@@ -140,7 +154,7 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
     buildFilterHref("/explore", {
       country: currentCountry || undefined,
       genre: currentGenre || undefined,
-      type: currentType === "movie" ? "movie" : "tv",
+      type: currentType === "movie" ? "movie" : currentType === "anime" ? "anime" : "tv",
       sort: currentSort || undefined,
       page: p > 1 ? String(p) : undefined,
     });
@@ -164,133 +178,8 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
         )}
       </div>
 
-      {/* ── Type and Country Filter Bar (combined row) ── */}
-      <div className="flex flex-wrap gap-2 mb-5 justify-between">
-        {/* Type filters on left */}
-        <div className="flex flex-wrap gap-2">
-          {TYPE_FILTERS.map((f) => {
-            const isActive = f.type === currentType;
-            return (
-              <Link
-                key={f.href}
-                href={f.href}
-                className={clsx(
-                  "px-4 py-2 rounded-full text-sm font-semibold transition-all border",
-                  isActive
-                    ? "bg-primary border-primary text-white shadow-md shadow-primary/25"
-                    : "bg-surface border-border text-gray-400 hover:bg-surface-2 hover:text-white hover:border-gray-600",
-                )}
-              >
-                {f.label}
-              </Link>
-            );
-          })}
-        </div>
-
-        {/* Country filters on right */}
-        <div className="flex flex-wrap gap-2">
-          {COUNTRY_FILTERS.filter(f => f.type === currentType).map((f) => {
-            const isActive = f.country === currentCountry;
-            return (
-              <Link
-                key={f.href}
-                href={f.href}
-                className={clsx(
-                  "px-4 py-2 rounded-full text-sm font-semibold transition-all border",
-                  isActive
-                    ? "bg-primary/15 border-primary/30 text-primary"
-                    : "bg-surface border-border text-gray-400 hover:bg-surface-2 hover:text-white hover:border-gray-600",
-                )}
-              >
-                {f.label}
-              </Link>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* ── Sort Bar ── */}
-      <div className="flex items-center gap-3 mb-7 border-b border-border pb-4">
-        <span className="text-xs text-gray-600 font-medium uppercase tracking-widest flex-shrink-0">
-          Sort by
-        </span>
-        <div className="flex gap-1 flex-wrap">
-          {SORT_OPTIONS.map((opt) => {
-            const isActive =
-              currentSort === opt.param ||
-              (!currentSort && opt.param === "popular");
-            return (
-              <Link
-                key={opt.param}
-                href={sortHref(opt.param)}
-                className={clsx(
-                  "px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors border",
-                  isActive
-                    ? "bg-primary/15 border-primary/30 text-primary"
-                    : "bg-transparent border-transparent text-gray-500 hover:text-gray-300 hover:bg-surface",
-                )}
-              >
-                {opt.label}
-              </Link>
-            );
-          })}
-        </div>
-
-        {total_pages > 1 && (
-          <span className="ml-auto text-xs text-gray-600 flex-shrink-0">
-            Page {currentPage} of {maxPage}
-          </span>
-        )}
-      </div>
-
-      {/* ── Genre Filter Bar ── */}
-      {genres.length > 0 && (
-        <div className="mb-7 border-b border-border pb-4">
-          <span className="text-xs text-gray-600 font-medium uppercase tracking-widest flex-shrink-0 mb-3 block">
-            Genres
-          </span>
-          <div className="flex gap-2 flex-wrap">
-            <Link
-              href={buildFilterHref("/explore", {
-                country: currentCountry || undefined,
-                type: currentType === "movie" ? "movie" : "tv",
-                sort: currentSort || undefined,
-                genre: undefined,
-              })}
-              className={clsx(
-                "px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors border",
-                !currentGenre
-                  ? "bg-primary/15 border-primary/30 text-primary"
-                  : "bg-transparent border-transparent text-gray-500 hover:text-gray-300 hover:bg-surface",
-              )}
-            >
-              All
-            </Link>
-            {genres.map((genre) => {
-              const isActive = currentGenre === String(genre.id);
-              return (
-                <Link
-                  key={genre.id}
-                  href={buildFilterHref("/explore", {
-                    country: currentCountry || undefined,
-                    type: currentType === "movie" ? "movie" : "tv",
-                    sort: currentSort || undefined,
-                    genre: String(genre.id),
-                  })}
-                  className={clsx(
-                    "px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors border",
-                    isActive
-                      ? "bg-primary/15 border-primary/30 text-primary"
-                      : "bg-transparent border-transparent text-gray-500 hover:text-gray-300 hover:bg-surface",
-                  )}
-                >
-                  {genre.name}
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      )}
+      {/* ── New Advanced Filters ── */}
+      <ExploreFilters genres={genres} totalResults={total_results} />
 
       {/* ── Results Grid ── */}
       {results.length > 0 ? (

@@ -46,7 +46,7 @@ interface ProviderConfig {
 const PROVIDERS: ProviderConfig[] = [
   // ── 1. VidSrc.to (vidsrc.icu) ───────────────────────────────────────────────
   {
-    id: 'vidsrc-to',
+    id: 'vidsrc-icu',
     name: 'VidSrc',
     badge: 'HD',
     badgeColor: 'blue',
@@ -56,7 +56,7 @@ const PROVIDERS: ProviderConfig[] = [
   },
 
   // ── 2. VidSrc.me ────────────────────────────────────────────────────────────
-  {
+  /**{
     id: 'vidsrc-me',
     name: 'VidSrc.me',
     badge: 'HD',
@@ -77,15 +77,15 @@ const PROVIDERS: ProviderConfig[] = [
     hasSubs: true,
     tv: (id, s, ep) => `https://vidsrc.cc/embed/tv/${id}/${s}/${ep}?sub_lang=en`,
     movie: (id) => `https://vidsrc.cc/embed/movie/${id}?sub_lang=en`,
-  },
+  },*/
   {
-    id: 'vidsrc-to',
-    name: 'VidSrc.to',
+    id: 'vidking-net',
+    name: 'vidking.net',
     badge: 'HD',
     badgeColor: 'blue',
     hasSubs: true,
-    tv: (id, s, ep) => `https://vidsrc-embed.ru/embed/tv/${id}/${s}/${ep}?sub_lang=en`,
-    movie: (id) => `https://vidsrc-embed.ru/embed/movie/${id}?sub_lang=en`,
+    tv: (id, s, ep) => `https://www.vidking.net/embed/tv/${id}/${s}/${ep}?lang=en`,
+    movie: (id) => `https://www.vidking.net/embed/movie/${id}?lang=en`,
   },
 ];
 

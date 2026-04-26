@@ -9,7 +9,6 @@ import {
   Film,
   Compass,
   Search,
-  User,
   Menu,
   X,
 } from "lucide-react";
@@ -97,15 +96,6 @@ export default function Navbar() {
               </span>
             </button>
 
-            {/* Sign In */}
-            <Link
-              href="/signin"
-              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded transition-colors"
-            >
-              <User className="w-4 h-4" />
-              Sign In
-            </Link>
-
             {/* Mobile hamburger */}
             <button
               onClick={() => setMobileOpen((prev) => !prev)}
@@ -136,16 +126,6 @@ export default function Navbar() {
                   {label}
                 </Link>
               ))}
-
-              {/* Sign In in mobile menu */}
-              <Link
-                href="/signin"
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded transition-colors"
-              >
-                <User className="w-4 h-4 flex-shrink-0" />
-                Sign In
-              </Link>
             </div>
           </div>
         )}

@@ -7,6 +7,7 @@ import { AlertTriangle, CheckCircle2, RefreshCw } from 'lucide-react';
 import VideoPlayer from '@/components/VideoPlayer';
 import EpisodeList from '@/components/EpisodeList';
 import { DramaDetails } from '@/lib/types';
+import { saveToWatchHistory } from '@/lib/watchHistory';
 
 interface ValidationState {
   valid: boolean;
@@ -59,8 +60,17 @@ export default function WatchPage() {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data: DramaDetails = await res.json();
       setDrama(data);
-      // Detect if it's a movie (no seasons) or series
-      setIsMovie(!data.seasons || data.seasons.length === 0);
+      const movie = !data.seasons || data.seasons.length === 0;
+      setIsMovie(movie);
+      saveToWatchHistory({
+        id: Number(id),
+        title: data.title || data.name || '',
+        poster_path: data.poster_path ?? null,
+        mediaType: movie ? 'movie' : 'tv',
+        season: movie ? undefined : Number(searchParams.get('s') || 1),
+        episode: movie ? undefined : Number(searchParams.get('ep') || 1),
+        watchedAt: Date.now(),
+      });
     } catch (err) {
       console.error('Failed to fetch drama for watch page:', err);
       setError(true);
