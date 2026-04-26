@@ -64,13 +64,25 @@ export interface EmbedValidationResult {
 
 const PROVIDERS: ProviderConfig[] = [
   // ── Tier 1: Primary Providers (Fast & Reliable) ─────────────────────────────
+  
   {
-    id: 'vidsrc-icu',
-    name: 'Server 2',
+    id: 'player-videasy',
+    name: 'Server 1',
     badge: 'HD',
     badgeColor: 'blue',
     hasSubs: true,
-    priority: 2,
+    priority: 1,
+    tv: (id, s, ep) => `https://player.videasy.net/tv/${id}/${s}/${ep}?sub_lang=en`,
+    movie: (id) => `https://player.videasy.net/movie/${id}?sub_lang=en`,
+  },
+  
+  {
+    id: 'vidsrc-icu',
+    name: 'Server 4',
+    badge: 'HD',
+    badgeColor: 'blue',
+    hasSubs: true,
+    priority: 4,
     tv: (id, s, ep) => `https://vidsrc.icu/embed/tv/${id}/${s}/${ep}?sub_lang=en`,
     movie: (id) => `https://vidsrc.icu/embed/movie/${id}?sub_lang=en`,
   },
@@ -96,12 +108,23 @@ const PROVIDERS: ProviderConfig[] = [
   },*/
 
   {
-    id: 'vidking-net',
-    name: 'Server 1',
+    id: '111movies-net',
+    name: 'Server 2',
     badge: 'HD',
     badgeColor: 'blue',
     hasSubs: true,
-    priority: 1,
+    priority: 2,
+    tv: (id, s, ep) => `https://111movies.net/tv/${id}/${s}/${ep}?sub_lang=en`,
+    movie: (id) => `https://111movies.net/movie/${id}?sub_lang=en`,
+  },
+
+  {
+    id: 'vidking-net',
+    name: 'Server 3',
+    badge: 'HD',
+    badgeColor: 'blue',
+    hasSubs: true,
+    priority: 3,
     tv: (id, s, ep) => `https://www.vidking.net/embed/tv/${id}/${s}/${ep}?lang=en`,
     movie: (id) => `https://www.vidking.net/embed/movie/${id}?lang=en`,
   },

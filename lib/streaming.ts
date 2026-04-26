@@ -87,6 +87,16 @@ const PROVIDERS: ProviderConfig[] = [
     tv: (id, s, ep) => `https://www.vidking.net/embed/tv/${id}/${s}/${ep}?lang=en`,
     movie: (id) => `https://www.vidking.net/embed/movie/${id}?lang=en`,
   },
+
+  {
+    id: '111movies-net',
+    name: '111movies.net',
+    badge: 'HD',
+    badgeColor: 'blue',
+    hasSubs: true,
+    tv: (id, s, ep) => `https://111movies.net/tv/${id}/${s}/${ep}?sub_lang=en`,
+    movie: (id) => `https://111movies.net/movie/${id}?sub_lang=en`,
+  },
 ];
 
 // ─── Public API ───────────────────────────────────────────────────────────────
