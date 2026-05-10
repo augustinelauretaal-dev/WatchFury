@@ -175,7 +175,7 @@ export default function SearchModal({ onClose }: SearchModalProps) {
       if (activeIdx >= 0 && results[activeIdx]) {
         const d = results[activeIdx];
         handleResultClick(d);
-        router.push(`/drama/${d.id}`);
+        router.push(`/drama/${d.id}${d.media_type ? `?type=${d.media_type}` : ''}`);
       } else {
         goToSearch(query);
       }
@@ -343,7 +343,7 @@ export default function SearchModal({ onClose }: SearchModalProps) {
                 return (
                   <li key={drama.id} role="option" aria-selected={isActive}>
                     <Link
-                      href={`/drama/${drama.id}`}
+                      href={`/drama/${drama.id}${drama.media_type ? `?type=${drama.media_type}` : ''}`}
                       onClick={() => handleResultClick(drama)}
                       data-active={isActive}
                       className={`flex items-center gap-3 px-4 py-3 transition-colors group ${

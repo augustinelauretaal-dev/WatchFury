@@ -45,13 +45,14 @@ export default function ExploreFilters({ genres, totalResults }: ExploreFiltersP
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [showFilterPanel, setShowFilterPanel] = useState(false);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [searchQuery, setSearchQuery] = useState('');
 
-  // Get current values from URL
-  const currentCategory = searchParams.get('category') || 'movie';
-  const currentType = searchParams.get('type') || 'movie';
-  const currentGenre = searchParams.get('genre') || '';
-  const currentSort = searchParams.get('sort') || 'popularity';
-  const currentYear = searchParams.get('year') || '';
+  // Get current values from URL — safe fallbacks prevent uncontrolled→controlled warning
+  const currentCategory = searchParams?.get('category') ?? 'movie';
+  const currentType = searchParams?.get('type') ?? 'movie';
+  const currentGenre = searchParams?.get('genre') ?? '';
+  const currentSort = searchParams?.get('sort') ?? 'popularity';
+  const currentYear = searchParams?.get('year') ?? '';
 
   const handleCategoryChange = (categoryValue: string, checked: boolean) => {
     if (checked) {
@@ -131,6 +132,13 @@ export default function ExploreFilters({ genres, totalResults }: ExploreFiltersP
           <input
             type="text"
             placeholder="Search..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && searchQuery.trim()) {
+                router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+              }
+            }}
             className="w-full bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg px-4 py-2.5 pl-10 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors"
           />
           <svg

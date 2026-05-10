@@ -588,22 +588,27 @@ export async function getSeasonEpisodes(
 }
 
 /**
- * Detect media type from TMDB ID (tries TV first, then movie)
+ * Detect media type from TMDB ID (tries both in parallel)
+ * When both exist, uses vote_count/popularity to pick the more prominent one.
  */
 export async function detectMediaType(tmdbId: number): Promise<'tv' | 'movie' | null> {
-  // Try TV first
-  try {
-    await tmdbFetch<{ id: number }>(`/tv/${tmdbId}`);
-    return 'tv';
-  } catch {
-    // Not a TV show, try movie
-    try {
-      await tmdbFetch<{ id: number }>(`/movie/${tmdbId}`);
-      return 'movie';
-    } catch {
-      return null;
-    }
+  const [tvResult, movieResult] = await Promise.allSettled([
+    tmdbFetch<{ id: number; vote_count?: number; number_of_seasons?: number }>(`/tv/${tmdbId}`),
+    tmdbFetch<{ id: number; vote_count?: number; runtime?: number }>(`/movie/${tmdbId}`),
+  ]);
+
+  const hasTV = tvResult.status === 'fulfilled';
+  const hasMovie = movieResult.status === 'fulfilled';
+
+  if (hasMovie && hasTV) {
+    // Both exist — pick whichever has more votes (more prominent entry)
+    const tvVotes = tvResult.status === 'fulfilled' ? (tvResult.value.vote_count ?? 0) : 0;
+    const movieVotes = movieResult.status === 'fulfilled' ? (movieResult.value.vote_count ?? 0) : 0;
+    return movieVotes >= tvVotes ? 'movie' : 'tv';
   }
+  if (hasMovie) return 'movie';
+  if (hasTV) return 'tv';
+  return null;
 }
 
 /**

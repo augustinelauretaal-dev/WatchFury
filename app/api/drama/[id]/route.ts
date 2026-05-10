@@ -4,16 +4,18 @@ import { getMovieDetails, getSeriesDetails, detectMediaType } from "@/lib/tmdb";
 export const dynamic = "force-dynamic";
 
 export async function GET(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params;
     const tmdbId = Number(id);
-    
-    // Detect if it's a movie or series
-    const mediaType = await detectMediaType(tmdbId);
-    
+    const hint = req.nextUrl.searchParams.get('type') as 'tv' | 'movie' | null;
+
+    // Use hint from query param if provided, otherwise detect
+    let mediaType = hint;
+    if (!mediaType) mediaType = await detectMediaType(tmdbId);
+
     if (mediaType === 'movie') {
       const movie = await getMovieDetails(tmdbId);
       return NextResponse.json(movie);

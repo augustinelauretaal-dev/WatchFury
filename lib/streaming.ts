@@ -44,7 +44,17 @@ interface ProviderConfig {
 // ─── Provider Registry ────────────────────────────────────────────────────────
 
 const PROVIDERS: ProviderConfig[] = [
-  // ── 1. VidSrc.to (vidsrc.icu) ───────────────────────────────────────────────
+  
+  {
+    id: 'player-videasy',
+    name: 'player.videasy',
+    badge: 'HD',
+    badgeColor: 'blue',
+    hasSubs: true,
+    tv: (id, s, ep) => `https://player.videasy.net/tv/${id}/${s}/${ep}?sub_lang=en`,
+    movie: (id) => `https://player.videasy.net/movie/${id}?sub_lang=en`,
+  },
+
   {
     id: 'vidsrc-icu',
     name: 'VidSrc',

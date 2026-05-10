@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import clsx from "clsx";
 import { discoverDramas, SortOption, getTVGenres, getMovieGenres, TMDBGenre } from "@/lib/tmdb";
 import DramaCard from "@/components/DramaCard";
@@ -73,7 +74,7 @@ function buildFilterHref(
 export async function generateMetadata({
   searchParams,
 }: ExplorePageProps): Promise<Metadata> {
-  const { country = "", sort = "", type = "tv" } = await searchParams;
+  const { country = "", sort = "", type = "movie" } = await searchParams;
 
   const typeLabel = type === "movie" ? "Movies" : "TV Shows";
   const countryLabel =
@@ -102,7 +103,7 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
     genre: currentGenre = "",
     sort: currentSort = "",
     page: rawPage = "1",
-    type: currentType = "tv",
+    type: currentType = "movie",
   } = await searchParams;
 
   const currentPage = Math.max(1, Number(rawPage));
@@ -179,7 +180,9 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
       </div>
 
       {/* ── New Advanced Filters ── */}
-      <ExploreFilters genres={genres} totalResults={total_results} />
+      <Suspense fallback={null}>
+        <ExploreFilters genres={genres} totalResults={total_results} />
+      </Suspense>
 
       {/* ── Results Grid ── */}
       {results.length > 0 ? (

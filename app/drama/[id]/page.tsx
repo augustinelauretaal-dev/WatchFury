@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import {
   getDramaDetails,
   getPosterUrl,
@@ -136,7 +136,9 @@ function SeasonSection({ drama }: { drama: DramaDetails }) {
 
 export default function DramaDetailPage() {
   const params = useParams();
+  const searchParams = useSearchParams();
   const id = params.id as string;
+  const typeHint = searchParams.get('type');
 
   const [drama, setDrama] = useState<DramaDetails | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -152,13 +154,12 @@ export default function DramaDetailPage() {
       setLoading(true);
       setError(false);
       try {
-        const res = await fetch(`/api/drama/${id}`, {
+        const res = await fetch(`/api/drama/${id}${typeHint ? `?type=${typeHint}` : ''}`, {
           signal: controller.signal,
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data: DramaDetails = await res.json();
         setDrama(data);
-        // Detect if it's a movie (no seasons) or series
         setIsMovie(!data.seasons || data.seasons.length === 0);
       } catch (err) {
         if ((err as Error).name !== 'AbortError') {
@@ -172,7 +173,7 @@ export default function DramaDetailPage() {
 
     fetchDrama();
     return () => controller.abort();
-  }, [id]);
+  }, [id, typeHint]);
 
   /* ── Loading State ── */
   if (loading) {
